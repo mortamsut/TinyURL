@@ -5,6 +5,7 @@ import LinkRouter from "./Routers/LinkRouter.js"
 import dotenv from 'dotenv'
 import connectDB  from './db.js';
 import LinkController from './controllers/LinkController.js';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -13,6 +14,8 @@ const port=3010
 
 connectDB();
 
+
+app.use(cors())
 app.use(bodyParser.json());
 
 app.get('/',(req,res)=>{

@@ -65,11 +65,17 @@ const LinkController={
       
       console.log("targetName",original.originalUrl);
       res.redirect(301,original.originalUrl);
-      // let targetn=original.targetParamName;?????????????
-      // console.log("targetParam-",req.query.targetn);??????????????
-     let click= await Linkcontext.addClick(req.params.uniqueName,ip.address(),req.query.t);
+      let targetn=original.targetParamName;
+      console.log("targetParam-",req.query.targetn);
+     let click= await Linkcontext.addClick(req.params.uniqueName,ip.address(),req.query[targetn]);
     console.log(click);
-    }
-
+    },
+    addTarget:async(req,res)=>{
+      const {uniqueName}=req.params;
+      const{targetName,name,value}=req.body;
+      const link=await Linkcontext.addTarget(targetName,name,value,uniqueName);      
+      let tiny="http://localhost:3010/"+uniqueName+'?'+link.targetParamName+'='+value;
+      res.send(tiny);
+    }    
 }
 export default LinkController;

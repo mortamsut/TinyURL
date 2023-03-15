@@ -52,6 +52,30 @@ const LinkContext={
       console.log("after",link);
       link.save();
      return link;
+    },
+    addTarget:async(targetParamName,name,value,uniqueName)=>{
+      let link= await Link.findOne({uniqueName});
+      let n,v;
+      for(let i=0;i<link.targetValues.length;i++)
+      {
+        if(link.targetValues[i].name==name)
+           n=name;
+        if(link.targetValues[i].value==value)
+           v=value;
+
+      }
+      console.log(n);
+     if(!n&&!v)
+     { link.targetValues.push({name,value});
+      if(targetParamName)
+      link.targetParamName = targetParamName
+      //let addt=await Link.findByIdAndUpdate(link._id,{targetParamName });
+      link.save();
+    }
+    else
+       console.log("this name or value already exist")
+  
+       return link;
     }
 }
 export default LinkContext;

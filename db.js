@@ -6,7 +6,7 @@ const connectDB=async()=>{
 };
 
 mongoose.connection.on("connected",()=>{
-    console.log("mongo i s connected");
+    console.log("mongo is connected");
 });
 
 mongoose.set('toJSON',{
