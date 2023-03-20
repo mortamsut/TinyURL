@@ -7,7 +7,7 @@ import connectDB  from './db.js';
 import LinkController from './controllers/LinkController.js';
 import cors from 'cors';
 import  jwt  from 'jsonwebtoken';
-
+import AuthRouter from './Routers/AuthRouter'
 
 const secret="tiny##url*byMor";
 
@@ -25,16 +25,15 @@ app.use(bodyParser.json());
 app.get('/',(req,res)=>{
     res.send()
 })
-app.post('/user/',UserRouter);
-app.get('/user/:name',UserRouter);
+app.use("/auth",AuthRouter);
  
 //middleware of jwt
-app.use("/user",(req,res,next)=>{
+app.use("/links",(req,res,next)=>{
    const token= req.headers.authorization.slice(7);
    console.log("token",token);
    try{
     const decoded= jwt.verify(token,secret);
-    req.name=decoded.name;//מה לגבי פונקציות שלוקחות ID האם לשנות את כולם לקבל שם
+    req.id=decoded.id;//מה לגבי פונקציות שלוקחות ID האם לשנות את כולם לקבל שם
     next();
    }
    catch{
@@ -48,3 +47,9 @@ app.get('/:uniqueName',LinkController.redirect);
 
 app.listen(port, () => 
 { console.log(` http://localhost:${port}`)})
+
+
+//jwt 
+//for sign in and sign up router controller  context auth
+//send in jwt only id and name of user
+//add link go to link controller and send to user context add id of link 
