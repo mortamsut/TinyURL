@@ -1,4 +1,5 @@
 import Linkcontext  from '../Context/LinkContext.js';
+
 import ip from 'ip'
 
 const LinkController={
@@ -23,7 +24,7 @@ const LinkController={
         let tinyLink="http://localhost:3010/"+uniqueName;
        res.send(tinyLink);
     }else {
-      res.send("The same name already exists");
+      res.status(401).send("The same name already exists");
   }
     },
     updateLink: async(req,res)=>{

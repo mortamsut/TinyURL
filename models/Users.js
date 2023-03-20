@@ -8,7 +8,7 @@ const UserSchema=mongoose.Schema({
     },
     "email":String,
     "password":String,
-    "links":Array
+    "links":[{"name":String}]
 })
 export default mongoose.model('users',UserSchema);
 
