@@ -1,12 +1,15 @@
 import Linkcontext  from '../Context/LinkContext.js';
+import UserContext from '../Context/UserContext.js';
 
 import ip from 'ip'
 
 const LinkController={
 
     getAllLinks: async(req,res)=>{ 
+      const userId = req.id;
+      const user=UserContext.getUserById(userId);
       console.log("get link controller");
-      const Links=await Linkcontext.getLinks();
+      const Links=await Linkcontext.getLinks(user);
      
       res.send(Links);
     },
@@ -15,12 +18,14 @@ const LinkController={
      res.send(Link);
     },
     addLink: async(req,res)=>{
-
+      // const userid=req.id;
+      // console.log("link controller id user: ",userid);
       const {originalUrl,uniqueName}=req.body;
       const unique= await Linkcontext.findByUniqueName(uniqueName);
       console.log('addLink', unique)
       if(!unique){
         const newLink=await Linkcontext.addLink({originalUrl,uniqueName});
+        const usr=UserContext.addUserLink(userid,newLink._id);
         let tinyLink="http://localhost:3010/"+uniqueName;
        res.send(tinyLink);
     }else {

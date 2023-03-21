@@ -6,7 +6,11 @@ const UserContext={
     let Users= await users.find();
     return Users;
   },
-  getUserById: async(name,password)=>{
+   getUserById:async(id)=>{
+    let user= await users.findOne({_id:id})
+    return user;
+   },
+   signIn: async(name,password)=>{
     let User= await users.findOne({name});
     console.log("password context ",password)
     console.log("get user in context ",User) 
@@ -44,9 +48,10 @@ const UserContext={
     let deleteUse=await users.findByIdAndRemove(id);
     return deleteUse;
   },
-  addLink: async(id,uniqueName)=>{
-    let user= await users.findOne({_id:id}); 
-   user.links.push({uniqueName});
+  addUserLink: async(userId,linkid)=>{
+
+    let user= await users.findOne({_id:userId}); 
+   user.links.push({linkid});
    user.save();
    return user;
   },

@@ -63,11 +63,11 @@ const UserController={
     },
 
     //כשנרצה להוסיך לינק עבור המשתמש נצטרך לבצע קריאת הקסיוס בריאקט אחת בתוך השניה 
-    addLink: async(req,res)=>{
-        const {id}=req.params; 
-        const {uniqueName}=req.body;
-        let addlink= await context.addLink(id,{uniqueName});
-        res.send(addlink)
-    }
+    // addUserLink: async(req,res)=>{
+    //     const userid=req.id; 
+       
+    //     let addlink= await context.addLink(id,{uniqueName});
+    //     res.send(addlink)
+    // }
 }
 export default  UserController;
