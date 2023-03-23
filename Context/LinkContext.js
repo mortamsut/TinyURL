@@ -10,8 +10,7 @@ const LinkContext={
     },
     getLinkById: async(id)=>{
         let link= await Link.findOne({_id:id}); 
-        return link;
-      
+        return link;    
     },
    
     addLink: async(link)=>{

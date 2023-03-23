@@ -1,5 +1,5 @@
 import users from '../models/Users.js';
-
+import links from '../models/LinksModel.js';
 const UserContext={
 
   getAllUsers: async()=>{
@@ -20,10 +20,11 @@ const UserContext={
    else if(password!=User.password) 
            {return -1; } 
   },
-  getLinks: async()=>{
-    let Links= await users.find({links});//איך לעשות שיחזיר רק את מערך הלינקים  
-    return Links;
-  },
+  // getLinks: async()=>{
+
+  //   let Links= await users.find({links});//איך לעשות שיחזיר רק את מערך הלינקים  
+  //   return Links;
+  // },
   getLinkById: async(index)=>{
     const Link=await users.find({links});
     let link=Link[index-1];
@@ -49,15 +50,31 @@ const UserContext={
     return deleteUse;
   },
   addUserLink: async(userId,linkid)=>{
-
+    console.log("link id ",linkid)
     let user= await users.findOne({_id:userId}); 
-   user.links.push({linkid});
+   user.links.push(linkid);
    user.save();
    return user;
   },
   findByUserName: async(name)=>{
      let usrname= await users.findOne({name});
      return usrname;
+  },
+  deleteLinkById: async(userId,linkId)=>{
+
+    let user = await users.findOne({_id:userId});
+    console.log ("the user in delete link ",user);
+    
+    for (let index = 0; index < user.links.length; index++) {
+         if(user.links[index]._id==linkId)
+           { 
+           user.links.splice(index,1);
+            user.save();
+            console.log(user);
+            return user;
+           }
+    }
+    return null;
   }
 
 

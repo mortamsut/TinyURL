@@ -1,4 +1,5 @@
 import context from '../Context/UserContext.js'
+import LinkContext from '../Context/LinkContext.js';
 import jwt  from 'jsonwebtoken';
 
 const secret="tiny##url*byMor";
@@ -26,11 +27,21 @@ const UserController={
     //        {   res.status(401).send("The password is wrong");}
     // },
     getLinks: async(req,res)=>{
-        const Links=await context.getLinks();
-        console.log("get links");
+        const userid=req.id;
+        const user= await context.getUserById(userid);
+        console.log("user",user.links)
+        let Links=[];
+        for (let index = 0; index < user.links.length; index++) {
+           const link= await LinkContext.getLinkById(user.links[index])
+           console.log(link);
+           let url="http://localhost:3010/"+link.uniqueName;
+           Links.push({id:link._id,link:url});
+        }
+        console.log("get links",Links);
         res.send(Links);
     },
     getLinkById: async(req,res)=>{
+
         const Link= await context.getLinkById(req.params.id);
         res.send(Link);
 

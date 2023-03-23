@@ -18,13 +18,14 @@ const LinkController={
      res.send(Link);
     },
     addLink: async(req,res)=>{
-      // const userid=req.id;
-      // console.log("link controller id user: ",userid);
+      const userid=req.id;
+      console.log("link controller id user: ",userid);
       const {originalUrl,uniqueName}=req.body;
       const unique= await Linkcontext.findByUniqueName(uniqueName);
       console.log('addLink', unique)
       if(!unique){
         const newLink=await Linkcontext.addLink({originalUrl,uniqueName});
+        console.log("new link id",newLink._id);
         const usr=UserContext.addUserLink(userid,newLink._id);
         let tinyLink="http://localhost:3010/"+uniqueName;
        res.send(tinyLink);
@@ -51,6 +52,8 @@ const LinkController={
        else res.send("The same name already exists");
     },
     deleteLink: async(req,res)=>{
+      const userid=req.id;
+      const user= await UserContext.deleteLinkById(userid,req.params.id);
       console.log("delete link controler",req.params.id);
       const {id}=req.params;
       const deleted=await Linkcontext.deleteLink(id);

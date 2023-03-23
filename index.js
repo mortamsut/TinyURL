@@ -28,12 +28,12 @@ app.use(bodyParser.json());
 app.use("/auth",AuthRouter);
           
 //middleware of jwt
-app.use("/links",(req,res,next)=>{
+app.use("/",(req,res,next)=>{
     console.log("------")
-    console.log("req",req)
-    console.log("-----------##############")
-    console.log("header",req.authorization);
-   const token= req.authorization.slice(7);
+    //console.log("req",req)
+   // console.log("-----------##############")
+    console.log("header",req.headers.authorization);
+   const token= req.headers.authorization.slice(7);
    console.log("token",token);
    try{
     const decoded= jwt.verify(token,secret);
