@@ -18,7 +18,7 @@ const AuthController={
         res.status(401).send("This user name already exists")
     },
     signIn: async(req,res)=>{
-        const password=req.query.password
+        const password=req.query.password   
         console.log("password controller ",password)
         const user=await context.signIn(req.params.name,password);
         console.log("get user in controller ",user) 

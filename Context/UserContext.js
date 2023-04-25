@@ -1,5 +1,7 @@
 import users from '../models/Users.js';
 import links from '../models/LinksModel.js';
+import LinkContext from './LinkContext.js';
+
 const UserContext={
 
   getAllUsers: async()=>{
@@ -61,20 +63,46 @@ const UserContext={
      return usrname;
   },
   deleteLinkById: async(userId,linkId)=>{
-
+     console.log("linkId",linkId);
     let user = await users.findOne({_id:userId});
     console.log ("the user in delete link ",user);
     
-    for (let index = 0; index < user.links.length; index++) {
-         if(user.links[index]._id==linkId)
-           { 
-           user.links.splice(index,1);
-            user.save();
-            console.log(user);
-            return user;
-           }
-    }
-    return null;
+    let filter_link= user.links.filter((val)=>{
+      console.log("val= ",val,"val._id= ",val._id,"val.id= ",val.id);
+      if(val._id!=linkId)
+        return val;
+    })
+   
+    console.log("filter link",filter_link);
+    await users.findByIdAndUpdate(userId,{links:filter_link});
+    user = await users.findOne({_id:userId});
+    console.log("user ",user);
+
+    if(user.links.length==0)
+         return null;
+     
+      let Links=[];
+        for (let index = 0; index < user.links.length; index++) {
+           const link= await LinkContext.getLinkById(user.links[index])
+           console.log(link);
+           let url="http://localhost:3010/"+link.uniqueName;
+           Links.push({id:link._id,link:url});
+        }
+        console.log("get links",Links);
+       return Links;
+       
+    // for (let index = 0; index < user.links.length; index++) {
+    //      if(user.links[index]._id==linkId)
+    //        { 
+            
+    //       //  user =user.links.splice(index,1);
+    //       //   console.log(user);
+    //       //   user.save();
+           
+    //         return user;
+    //        }
+    //}
+  
   }
 
 

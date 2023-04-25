@@ -57,15 +57,16 @@ const LinkContext={
       let n,v;
       for(let i=0;i<link.targetValues.length;i++)
       {
-        if(link.targetValues[i].name==name)
-           n=name;
+        // if(link.targetValues[i].name==name)
+        //    n=name;
         if(link.targetValues[i].value==value)
            v=value;
 
       }
       console.log(n);
-     if(!n&&!v)
+     if(!v)
      { link.targetValues.push({name,value});
+     console.log("tpn",targetParamName)
       if(targetParamName)
       link.targetParamName = targetParamName
       //let addt=await Link.findByIdAndUpdate(link._id,{targetParamName });

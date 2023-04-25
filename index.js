@@ -26,9 +26,13 @@ app.use(bodyParser.json());
 //     res.send()
 // })
 app.use("/auth",AuthRouter);
-          
+      
 //middleware of jwt
-app.use("/",(req,res,next)=>{
+app.use('/user',(req,res,next)=>{
+    // if(!req.headers.authorization){ 
+    //     console.log("redirect");
+        
+    // }
     console.log("------")
     //console.log("req",req)
    // console.log("-----------##############")
@@ -44,7 +48,20 @@ app.use("/",(req,res,next)=>{
     res.status(401).send({message:"unauthorized"});
    }
 });
-
+app.use('/links',(req,res,next)=>{
+    console.log("header",req.headers.authorization);
+   const token= req.headers.authorization.slice(7);
+   console.log("token",token);
+   try{
+    const decoded= jwt.verify(token,secret);
+    req.id=decoded.id;//מה לגבי פונקציות שלוקחות ID האם לשנות את כולם לקבל שם
+    next(); 
+   }
+   catch{
+    res.status(401).send({message:"unauthorized"});
+   }
+});
+   
 app.use('/user',UserRouter);
 app.use('/links',LinkRouter);
 app.get('/:uniqueName',LinkController.redirect);

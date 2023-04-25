@@ -57,7 +57,7 @@ const LinkController={
       console.log("delete link controler",req.params.id);
       const {id}=req.params;
       const deleted=await Linkcontext.deleteLink(id);
-      res.send(deleted);
+      res.send(user);
     },
     redirect: async(req,res)=>{
       //לבנתיים
@@ -69,6 +69,7 @@ const LinkController={
       
      
       console.log("redirect");
+      console.log("name",req.params.uniqueName);
       let original= await Linkcontext.findByUniqueName(req.params.uniqueName);
       console.log("ip addres",ip.address());
       
@@ -80,10 +81,12 @@ const LinkController={
     console.log(click);
     },
     addTarget:async(req,res)=>{
-      const {uniqueName}=req.params;
+      const {id}=req.params;
       const{targetName,name,value}=req.body;
+      const uniqueName= (await Linkcontext.getLinkById(id)).uniqueName;
       const link=await Linkcontext.addTarget(targetName,name,value,uniqueName);      
       let tiny="http://localhost:3010/"+uniqueName+'?'+link.targetParamName+'='+value;
+      console.log(tiny);
       res.send(tiny);
     }    
 }

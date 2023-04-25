@@ -30,7 +30,10 @@ const UserController={
         const userid=req.id;
         const user= await context.getUserById(userid);
         console.log("user",user.links)
-        let Links=[];
+        if(user.links.length==0)
+         res.send(null);
+     
+        else{let Links=[];
         for (let index = 0; index < user.links.length; index++) {
            const link= await LinkContext.getLinkById(user.links[index])
            console.log(link);
@@ -39,6 +42,7 @@ const UserController={
         }
         console.log("get links",Links);
         res.send(Links);
+       }
     },
     getLinkById: async(req,res)=>{
 
